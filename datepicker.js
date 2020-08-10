@@ -31,7 +31,7 @@ class DatePicker extends Component {
     this.state = {
       date: this.getDate(),
       modalVisible: false,
-      animatedHeight: new Animated.Value(0),
+      animatedHeight: new Animated.Value(this.props.height),
       allowPointerEvents: true
     };
 
@@ -65,7 +65,7 @@ class DatePicker extends Component {
       return Animated.timing(
         this.state.animatedHeight,
         {
-          toValue: height,
+          toValue: 0,
           duration: duration
         }
       ).start();
@@ -73,7 +73,7 @@ class DatePicker extends Component {
       return Animated.timing(
         this.state.animatedHeight,
         {
-          toValue: 0,
+          toValue: height,
           duration: duration
         }
       ).start(() => {
@@ -388,7 +388,11 @@ class DatePicker extends Component {
                   style={{flex: 1}}
                 >
                   <Animated.View
-                    style={[Style.datePickerCon, {height: this.state.animatedHeight}, customStyles.datePickerCon]}
+                    style={[
+                      Style.datePickerCon,
+                      {height: this.props.height, transform: [{translateY: this.state.animatedHeight}]},
+                      customStyles.datePickerCon
+                    ]}
                   >
                     <View pointerEvents={this.state.allowPointerEvents ? 'auto' : 'none'}>
                       <DatePickerIOS
